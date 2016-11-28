@@ -2,7 +2,7 @@
 import os, sys, glob
 from PIL import Image
 
-directory = "C:\\Users\\adam.born\\Desktop"
+directory = "~\Desktop" #set working directory
 print(os.getcwd())
 
 files = glob.glob("*.eps")
