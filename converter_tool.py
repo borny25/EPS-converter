@@ -22,6 +22,8 @@ def batchconvert():
 	print(imgpath)
 	os.chdir(imgpath)
 	newpath = imgpath + "\\jpegs\\"
+	print(newpath)
+
 	if not os.path.exists(newpath):
 		os.makedirs(newpath)
 	
@@ -48,7 +50,7 @@ def batchconvert():
 		try:
 			print(j)
 			jpegpathold = os.path.abspath(j)
-			jpegpathnew = os.path.abspath(newpath) + "\\" + j
+			jpegpathnew = newpath + j
 			print(jpegpathold)
 			print(jpegpathnew)
 			copyfile(jpegpathold, jpegpathnew)
