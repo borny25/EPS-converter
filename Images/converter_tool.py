@@ -2,7 +2,7 @@ import os, sys, glob
 import PIL.Image
 from tkinter import *
 from tkinter.filedialog import askdirectory
-
+from shutil import copyfile
 
 
 def browsefolder():
@@ -29,6 +29,9 @@ def batchconvert():
 	files = glob.glob("*.eps")															#identify all eps files in working directory
 	print(files)
 
+	jpegs = glob.glob("*.jpg")
+	print(jpegs)
+
 	for f in files:
 		try:
 			print(f)
@@ -40,6 +43,17 @@ def batchconvert():
 			infile.save(outfile, quality = 95)							#attempt to convert and save into newpath, dpi set to same size as original, quality maxed at 95
 		except IOError:
 			print("Unable to convert")
+
+	for j in jpegs:
+		try:
+			print(j)
+			jpegpathold = os.path.abspath(j)
+			jpegpathnew = os.path.abspath(newpath) + "\\" + j
+			print(jpegpathold)
+			print(jpegpathnew)
+			copyfile(jpegpathold, jpegpathnew)
+		except:
+			print("Unable to move existing jpegs")
 
 root = Tk()
 root.title("EPS Image Converter")
