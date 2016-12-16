@@ -28,7 +28,7 @@ def batchconvert():
 		os.makedirs(newpath)
 	
 
-	files = glob.glob("*.eps")															#identify all eps files in working directory
+	files = glob.glob("*.eps")								#identify all eps files in working directory
 	print(files)
 
 	jpegs = glob.glob("*.jpg")
@@ -37,20 +37,24 @@ def batchconvert():
 	for f in files:
 		try:
 			print(f)
-			filename, extension = os.path.splitext(f)									#split filenames and extension
+			filename, extension = os.path.splitext(f)				#split filenames and extension
 			print(filename)
 			infile = PIL.Image.open(filename + ".eps")		
-			infile.load(scale=8)														#open and load at double scale (important for quality)
-			outfile = newpath + filename + ".jpg"										#define outfile as a jpg of infile in the jpegs folder
-			infile.save(outfile, quality = 95)							#attempt to convert and save into newpath, dpi set to same size as original, quality maxed at 95
+			infile.load(scale=8)							#open and load at double scale (important for quality)
+			outfile = newpath + filename + ".jpg"					#define outfile as a jpg of infile in the 'jpegs' folder
+			infile.save(outfile, quality = 95)					#attempt to convert and save into newpath, dpi set to same size as original, quality maxed at 95
 		except IOError:
 			print("Unable to convert")
 
-	for j in jpegs:
+	for j in jpegs:										#define new path to copy jpegs into the 'jpegs' folder, that way, everything is in the same place
 		try:
 			print(j)
 			jpegpathold = os.path.abspath(j)
+<<<<<<< HEAD
 			jpegpathnew = newpath + j
+=======
+			jpegpathnew = os.path.abspath(newpath) + "\\" + j			#use os.abspath here otherwise end up with / rather than \ in pathnames. Using abspath is platform-agnostic.
+>>>>>>> origin/master
 			print(jpegpathold)
 			print(jpegpathnew)
 			copyfile(jpegpathold, jpegpathnew)
