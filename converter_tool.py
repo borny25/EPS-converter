@@ -9,9 +9,6 @@ def browsefolder():
 	fldr = askdirectory()
 	imgpath.set(fldr)
 	
-	files = glob.glob("*.eps")
-	print(files)
-	
 	entry1.delete(0, END)
 	entry1.insert(0, fldr)
 
@@ -28,19 +25,22 @@ def batchconvert():
 		os.makedirs(newpath)
 	
 
-	files = glob.glob("*.eps")								#identify all eps files in working directory
-	print(files)
+	epsfiles = glob.glob("*.eps")								#identify all eps files in working directory
+	print(epsfiles)
 
 	jpegs = glob.glob("*.jpg")
 	print(jpegs)
 
-	for f in files:
+	aifiles = glob.glob("*.ai")
+	print(aifiles)
+
+	for f in epsfiles:
 		try:
 			print(f)
 			filename, extension = os.path.splitext(f)				#split filenames and extension
 			print(filename)
 			infile = PIL.Image.open(filename + ".eps")		
-			infile.load(scale=8)							#open and load at double scale (important for quality)
+			infile.load(scale=2)							#open and load at double scale (important for quality)
 			outfile = newpath + filename + ".jpg"					#define outfile as a jpg of infile in the 'jpegs' folder
 			infile.save(outfile, quality = 95)					#attempt to convert and save into newpath, dpi set to same size as original, quality maxed at 95
 		except IOError:
@@ -50,16 +50,25 @@ def batchconvert():
 		try:
 			print(j)
 			jpegpathold = os.path.abspath(j)
-<<<<<<< HEAD
 			jpegpathnew = newpath + j
-=======
 			jpegpathnew = os.path.abspath(newpath) + "\\" + j			#use os.abspath here otherwise end up with / rather than \ in pathnames. Using abspath is platform-agnostic.
->>>>>>> origin/master
 			print(jpegpathold)
 			print(jpegpathnew)
 			copyfile(jpegpathold, jpegpathnew)
 		except:
 			print("Unable to move existing jpegs")
+
+	for a in aifiles:										#does the same as jpegs function above for ai files
+		try:
+			print(a)
+			aipathold = os.path.abspath(a)
+			aipathnew = newpath + a
+			aipathnew = os.path.abspath(newpath) + "\\" + a			
+			print(aipathold)
+			print(aipathnew)
+			copyfile(aipathold, aipathnew)
+		except:
+			print("Unable to move existing ai files")
 
 root = Tk()
 root.title("EPS Image Converter")
