@@ -34,6 +34,9 @@ def batchconvert():
 	aifiles = glob.glob("*.ai")
 	print(aifiles)
 
+	pdffiles = glob.glob("*.pdf")
+	print(pdffiles)
+
 	for f in epsfiles:
 		try:
 			print(f)
@@ -50,7 +53,6 @@ def batchconvert():
 		try:
 			print(j)
 			jpegpathold = os.path.abspath(j)
-			jpegpathnew = newpath + j
 			jpegpathnew = os.path.abspath(newpath) + "\\" + j			#use os.abspath here otherwise end up with / rather than \ in pathnames. Using abspath is platform-agnostic.
 			print(jpegpathold)
 			print(jpegpathnew)
@@ -62,7 +64,6 @@ def batchconvert():
 		try:
 			print(a)
 			aipathold = os.path.abspath(a)
-			aipathnew = newpath + a
 			aipathnew = os.path.abspath(newpath) + "\\" + a			
 			print(aipathold)
 			print(aipathnew)
@@ -70,14 +71,26 @@ def batchconvert():
 		except:
 			print("Unable to move existing ai files")
 
+	for p in pdffiles:
+		try:
+			print(p)
+			pdfpathold = os.path.abspath(p)
+			pdfpathnew = os.path.abspath(newpath) + "\\" + p
+			print(pdfpathold)
+			print(pdfpathnew)
+			copyfile(pdfpathold, pdfpathnew)
+		except:
+			print("Unable to move existing pdf files")
+
+
 root = Tk()
 root.title("EPS Image Converter")
-root.minsize(20, 10)
+root.minsize(300, 100)
 
 imgpath=StringVar()
 
 thelabel = Label(root, text = "This idenitifies the working directory")
-thelabel.grid(row=0, columnspan=2, sticky=W)
+thelabel.grid(row=0, columnspan=4, sticky=W)
 
 button1=Button(root, text="Browse", fg="black", command=browsefolder)
 button2=Button(root, text="Cancel", fg="black", command=root.destroy)
@@ -86,7 +99,7 @@ button3=Button(root, text="Convert", fg="black", command=batchconvert)
 entry1=Entry(root, textvariable=imgpath)
 
 button1.grid(row=1, column=1)
-entry1.grid(row=1, column=0)
+entry1.grid(row=1, column=0, sticky=W)
 button2.grid(row=2, column=0)
 button3.grid(row=2, column=1)
 
